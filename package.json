@@ -5,10 +5,13 @@
   "dependencies": {
     "babel-core": "^6.26.3",
     "concurrently": "^3.6.0",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-icons": "^2.2.7",
     "react-scripts": "1.1.4",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "concurrently \"npm run react\" \"npm run server\" ",
@@ -23,4 +26,3 @@
     "nodemon": "^1.17.5"
   }
 }
-

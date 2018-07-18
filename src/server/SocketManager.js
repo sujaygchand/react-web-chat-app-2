@@ -5,7 +5,9 @@ const { COMMUNITY_CHAT, USER_CONNECTED, MESSAGE_RECIEVED,
     LOGOUT } = require('../Events');
 
 const { createUser, createMessage, createChat } = require('../Factories');
+
 let connectedUsers = {};
+let communityChat = createChat;
 
 module.exports = function (socket) {
     console.log("Socket.id: " + socket.id);
@@ -33,10 +35,26 @@ module.exports = function (socket) {
     )
 
     // User disconnects
+    socket.on('disconnect', ()=>{
+        if("user" in socket){
+            connectedUsers = removeUser(connectedUsers, socket.user.name);
 
+            io.emit(USER_DISCONNECTED, connectedUsers);
+            console.log("Disconnect: ", connectedUsers);
+        }
+    })
 
     // User logouts
+    socket.on(LOGOUT, ()=>{
+        connectedUsers = removeUser(connectedUsers, socket.user.name);
+        io.emit(USER_DISCONNECTED, connectedUsers);
+        console.log("Disconnect: ", connectedUsers);
+    })
 
+    // Get Community Chat
+    socket.on(COMMUNITY_CHAT, (callback)=>{
+        callback(communityChat);
+    })
 
     /**
      * Adds user to list passed in.
